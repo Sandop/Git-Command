@@ -12,9 +12,23 @@
 
  ssh-keygen -t rsa -C "远程仓库账户"		//之后一直回车
 
+ git push -u origin master			//第一次提交到远程仓库中master分支
+
  git push origin master			//提交到远程仓库中master分支
 
  如果推送不成功则运行命令 git pull --rebase origin master 下载仓库的东西 再去提交
+
+ 若第一次提交远程仓库出错，执行以下代码：
+
+ git remote rm origin
+
+ git remote add origin git@github.com:【用户名】/项目名.git
+
+ git push origin
+
+ 再根据提示再输入git push --set-upstream origin master
+
+ 然后再输入git push origin就可以提交成功啦！
 
  *******************************************************************************************
 
