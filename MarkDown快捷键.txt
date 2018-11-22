@@ -1,0 +1,14 @@
+1.vscode安装 MarkDown
+2.安装插件 Markdown All in One
+3.命令
+	Ctrl + B    		Toggle bold（加粗）
+	Ctrl + I		Toggle italic（倾斜）
+	Alt + S			Toggle strikethrough（删除线）
+	Ctrl + Shift + ]	Toggle heading (uplevel)（标题（上升））
+	Ctrl + Shift + [	Toggle heading (downlevel)（标题（下降））
+	Ctrl + M		Toggle math environment（ 切换至数学环境）
+	Alt + C			Check/Uncheck task list item（选表单切换）
+
+4.参考： 	https://marketplace.visualstudio.com/items?itemName=yzhang.markdown-all-in-one
+
+5.预览 		vs code 预览 Markdown 文件的快捷键为 Ctrl + Shift + V.
