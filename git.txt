@@ -1,20 +1,32 @@
 基本操作步骤
 
- git init  				//在当前目录创建本地git代码仓库（让git托管）
+ git init  						//在当前目录创建本地git代码仓库（让git托管）
+	
+ git clone -b <指定分支名> <远程仓库地址>		//直接克隆远程指定分支
 
- git add (文件名 例：index.html)	//提交到代码仓库的暂存区（代码仓库有暂存区和分支区两个区）
+ git add (文件名 例：index.html)			//提交到代码仓库的暂存区（代码仓库有暂存区和分支区两个区）
 
- git add .        			//添加所有文件到暂存区
+ git add .        					//添加所有文件到暂存区
 
  git commit -m "注明信息（操作了什么加了什么功能）"	//提交到分支区
 
- git remote add origin (远程仓库连接)	//绑定远程仓库
+ git commit -am "xxxxxx"				//添加所有文件到暂存区并提交到分支区
 
- ssh-keygen -t rsa -C "远程仓库账户"		//之后一直回车
+ git commit --amend					//提交漏掉文件，或者修改提交信息
 
- git push -u origin master			//第一次提交到远程仓库中master分支
+ git remote add origin (远程仓库连接)			//绑定远程仓库
 
- git push origin master			//提交到远程仓库中master分支
+ git fetch origin dev（dev为远程仓库的分支名）		//把远程分支拉到本地（不会合并到本地）
+
+ git pull origin dev（dev为远程仓库的分支名）		//把远程分支拉到本地(会合并到本地)
+
+ ssh-keygen -t rsa -C "远程仓库账户"			//之后一直回车
+
+ git push -u origin master				//第一次提交到远程仓库中master分支
+
+ git push --set-upstream origin master			//同上
+
+ git push origin master					//提交到远程仓库中master分支
 
  如果推送不成功则运行命令 git pull --rebase origin master 下载仓库的东西 再去提交
 
@@ -30,85 +42,144 @@
 
  然后再输入git push origin就可以提交成功啦！
 
+
+ *******************************************************************************************
+
+
+配置别名
+
+git config --global alias.co checkout
+
+git config --global alias.last 'log -1 HEAD'
+
+st = status
+
+co = checkout
+
+ci = commit
+
+br = branch
+
+mg = merge
+
+unstage = reset HEAD
+	
  *******************************************************************************************
 
  分支管理
 
- git branch （name）			//创建分支
+ git branch （name）				//创建分支
 
- git branch				//查看分支
+ git branch					//查看分支
 
- git checkout (name)			//切换分支
+ git branch -a					//查看远程所有分支
 
- git checkout -b （name）		// 创建并且切换到这个分支
+ git branch -m old_branch new_branch		//分支重命名
 
- git merge （name）			//合并分支
+ git checkout (name)				//切换分支
 
- git merge --no-ff （name）		// 加上--no-ff 表示禁用Fast forward （删除分支后，保存分支信息）
+ git checkout -b （name）			// 创建并且切换到这个分支
 
- git branch -d	（name）		// 删除分支
+ git checkout -b 本地分支名 origin/远程分支名   //新建分支并切换到指定分支
 
- git branch -D 	（name）		// 强行删除未合并的分支
+ git checkout -b <branch_name> <hash_val>	//恢复删除的某个分支,先使用git reflog查看记录
 
- git clone （连接地址）			// 克隆
+ git branch -vv					//查看本地分支及追踪的分支
 
- git reset --hard (commit 前几位id)	// 回退到某个版本
+ git branch --set-upstream branch-name origin/branch-name		//建立本地分支和远程分支的关联
 
- git log  				// 查看历史记录
+ git branch -u branch-name origin/branch-name		//建立本地分支和远程分支的关联
 
- git log --graph           		// 查看分支合并图
+ git merge （name）				//合并分支
 
- git reflog 				// 查看历史命令
+ git merge --no-ff （name）			// 加上--no-ff 表示禁用Fast forward （删除分支后，保存分支信息）
 
- git checkout -- file                   // 把文件在工作区的修改撤销（回退到最近一次git commit 或者git add）
+ git merge --abort 				//中断合并并尝试恢复到你运行合并前的状态
 
- git reset HEAD file                    // 如果已经提交到暂存区 可以用此命令把暂存区的修改撤销 放回工作区
+ git branch -d	（name）			// 删除分支
 
- git rm file				// 删除版本库的文件
+ git branch -D 	（name）			// 强行删除未合并的分支
+
+ git clone （连接地址）				// 克隆
+
+ git clone （连接地址） （newName）		//克隆并在本地创建的仓库名字变为 newName
+
+ git reset --hard (commit 前几位id)		// 回退到某个版本
+
+ git log  					// 查看历史记录
+
+ git reflog 					// 查看历史命令
+
+ git checkout -- file                   	// 把文件在工作区的修改撤销（回退到最近一次git commit 或者git add）
+
+ git reset HEAD file                    	// 如果已经提交到暂存区 可以用此命令把暂存区的修改撤销 放回工作区
+
+ git rm file					// 删除版本库的文件
+
+ *******************************************************************************************
 
 
- git stash				// 保存当前工作 去做其他的事 做完后在继续
+ git stash					// 保存当前工作 去做其他的事 做完后在继续
 
- git stash list				// 查看保存起来的工作
+ git stash save "注明信息"			// 保存当前工作 并注释
 
- git stash apply			// 使用此条命令恢复工作 但不会删除
+ git stash list					// 查看保存起来的工作
+	
+ git stash apply				// 使用此条命令恢复工作 但不会删除
 
- git stash drop				// 删除stash内容
+ git stash drop					// 删除stash内容
 
- git stash pop				// 恢复的同时把stash内容删除
+ git stash drop stash@{0}			// 删除某个stash内容
 
- git stash apply stash@{0}		// 指定恢复哪个stash
+ git stash pop					// 恢复的同时把stash内容删除
 
- git remote				// 查看远程库的信息
-
- git remote -v				// 查看远程库的信息（显示更详细的）
+ git stash apply stash@{0}			// 指定恢复哪个stash
 
 
  *******************************************************************************************
 
  标签操作
  
- git tag （tagName）			// 新建标签
+ git tag						// 查看所有标签
 
- git tag				// 查看所有标签
+ git tag -l "v1.8.5*"					// 查看匹配标签名为v1.8.5通配模式
 
- git tag （tagName） （commitID）        // 对某个commit 打上标签
+ git tag （tagName）					// 新建轻量标签
 
- git show （tagName）			// 查看标签信息
+ git tag -a （tagName） -m （说明文字）		 	// 创建附注标签
+
+ git tag （tagName） （commitID）       		// 对某个commit 打上轻量标签
+
+ git tag -a （tagName） -m （说明文字） （commitID） 	// 对某个commit 打上附注标签
+
+ git show （tagName）					// 查看标签信息
+
+ git tag -d （tagName）					// 删除一个本地标签
+
+ git push origin :refs/tags/<tagname>			// 删除远程标签
+
+ git push origin --delete <tagname>			// 删除远程标签
+
+ git push origin （tagName）				// 推送一个本地标签到远程
+
+ git push origin --tags					// 一次性推送全部尚未推送到远程的本地标签
+
  
- git tag -a （tagName） -m （说明文字） （commitID） // 创建带有说明的标签
 
- git tag -d （tagName）			// 删除标签
 
- git push origin （tagName）		// 推送标签到远程
+git push -u origin dev:DEV	   			//将本地分支推送到远程
 
- git push origin --tags			// 一次性推送全部尚未推送到远程的本地标签
+ git push origin :branchname				//删除一个远程标签，将一个空的分支推送远程，删除
+
+ git push origin --delete [branchname]			//删除远程分支
+
+ git push <远程主机名> <本地分支名>:<远程分支名>   	//将本地分支推送到远程
 
  如果标签已经推送到远程 要删除的话如下：
 
- git tag -d （tagName）			// 先删除本地的
+ git tag -d （tagName）					// 先删除本地的
 
- git push origin :refs/tags/（tagName）	// 在远程删除
+ git push origin :refs/tags/<tagname>			// 在远程删除
 
  *******************************************************************************************
 
@@ -117,4 +188,322 @@
  如再次失败 原因是没有指定本地dev分支与远程origin/dev分支的链接，
 
  根据提示，设置dev和origin/dev的链接 git branch --set-upstream dev origin/dev 再pull
+
+ *******************************************************************************************
+
+ 修改远程分支名称
+
+ git push --delete origin oldName		//删除远程分支
+ 
+ git branch -m oldName newName			//重命名远程分支对应的本地分支
+
+ git push origin newName			//上传新命名的本地分支
+
+ git branch --set-upstream-to origin/newName	//把修改后的本地分支与远程分支关联
+
+*******************************************************************************************
+
+ git status -s 					//状态简览
+
+ git status --short				//状态简览
+
+
+A  lib/git.rb
+?? LICENSE.txt
+ M README
+M  lib/simplegit.rb
+MM Rakefile
+
+
+// A 标记---新添加到暂存区中的文件  
+
+// ?? 标记---新添加的未跟踪文件
+
+// 右边的 M 标记--- 该文件被修改了但是还没放入暂存区 
+
+// 左边的 M 标记---该文件被修改了并放入了暂存区
+
+// MM 标记---在工作区被修改并提交到暂存区后又在工作区中被修改,在暂存区和工作区都有该文件被修改了的记录
+
+
+*******************************************************************************************
+
+ git diff					//查看已暂存和未暂存的修改
+
+ git diff					//查看尚未暂存的文件更新了哪些部分，不加参数直接输入
+
+ git diff --cached				//查看已暂存的将要添加到下次提交里的内容
+
+ git diff --staged				//效果是相同
+
+*******************************************************************************************
+
+ git log --graph           			// 查看分支合并图
+
+ git log -p					//显示每次提交的内容差异
+
+ git log -p -<n>				//显示每次提交的内容差异且仅显示最近n次提交
+
+ git log --stat					//看到每次提交的简略的统计信息
+
+-p
+
+按补丁格式显示每个更新之间的差异。
+
+--stat
+
+显示每次更新的文件修改统计信息。
+
+--shortstat
+
+只显示 --stat 中最后的行数修改添加移除统计。
+
+--name-only
+
+仅在提交信息后显示已修改的文件清单。
+
+--name-status
+
+显示新增、修改、删除的文件清单。
+
+--abbrev-commit
+
+仅显示 SHA-1 的前几个字符，而非所有的 40 个字符。
+
+--relative-date
+
+使用较短的相对时间显示（比如，“2 weeks ago”）。
+
+--graph
+
+显示 ASCII 图形表示的分支合并历史。
+
+--pretty
+
+使用其他格式显示历史提交信息。可用的选项包括 oneline，short，full，fuller 和 format（后跟指定格式）。
+
+
+
+*******************************************************************************************
+ git remote					// 查看远程库的信息
+
+ git remote -v					// 查看远程库的信息（显示更详细的）
+
+ git remote add origin <url>
+
+ git remote add <shortname> <url>		//添加一个新的远程 Git 仓库，同时指定一个你可以轻松引用的简写
+
+ git remote show [remote-name]			//查看某一个远程仓库的更多信息
+
+ git remote rename <oldName> <newName> 		//修改一个远程仓库的简写名
+
+ git remote rm name				//移除一个远程仓库
+
+
+*******************************************************************************************
+
+
+撤销文件
+
+
+
+1、从工作区丢弃文件
+
+ git checkout --<file>
+
+2、暂存区--->工作区
+
+ git reset HEAD					//将所有文件从暂存区移到工作区
+
+ git reset HEAD <file>				//将file文件从暂存区移到工作区
+
+ git unstage					//将所有文件从暂存区移到工作区--别名写法
+
+ git unstage <file>				//将file文件从暂存区移到工作区--别名写法
+
+3、本地仓库撤销
+
+ git reset --hard HEAD^				//回退到上一版本
+
+ git reset --hard HEAD^^			//回退到上上一版本
+
+ git reset --hard HEAD~5			//回退前五个版本
+
+ git reset --hard 1094ae			//回退commit id 为1094ae版本，这个版本之后的提交全部消失
+
+ git log  					// 查看历史记录
+
+ git reflog 					// 查看历史命令
+
+ git revert 8b89621				//还原某一版本，将commit id 为8b89621版本在当前版本之中删除并提交
+
+
+
+
+*******************************************************************************************
+
+ git revert
+
+git revert <commit> 可以撤销指定的提交，要撤销一串提交可以用 <commit1>..<commit2> 语法。 
+
+** 注意这是一个前开后闭区间，即不包括 commit1，但包括 commit2 **
+
+** 注意 revert 命令会对每个撤销的 commit 进行一次提交，--no-commit 后可以最后一起手动提交 **
+
+
+ git revert --no-commit <commitId> 
+
+ git revert --no-commit <commitId>..<commitId>
+
+ git revert --no-commit -m 1 <commitId>
+
+ git merge fixed
+
+
+例如：
+
+
+1、我们提交了 6 个版本，其中 3-4 包含了错误的代码需要被回滚掉。 同时希望不影响到后续的 5-6
+
+* 982d4f6 (HEAD -> master) version 6
+* 54cc9dc version 5
+* 551c408 version 4, harttle screwed it up again
+* 7e345c9 version 3, harttle screwed it up
+* f7742cd version 2
+* 6c4db3f version 1
+
+其中 f7742cd 是 version 2，551c408 是 version 4，这样被移除的是 version 3 和 version 4。 
+
+注意 revert 命令会对每个撤销的 commit 进行一次提交，--no-commit 后可以最后一起手动提交
+
+
+
+********
+
+git revert --no-commit f7742cd..551c408
+
+git commit -a -m 'This reverts commit 7e345c9 and 551c408'
+
+********
+
+最后如下：
+
+* 8fef80a (HEAD -> master) This reverts commit 7e345c9 and 551c408
+* 982d4f6 version 6
+* 54cc9dc version 5
+* 551c408 version 4, harttle screwed it up again
+* 7e345c9 version 3, harttle screwed it up
+* f7742cd version 2
+* 6c4db3f version 1
+
+
+
+
+
+
+例如：
+
+1、master分支合并分支fixed代码之后又做了多次修改并提交，这个时候想要取消合并分支fixed，在master分支执行：
+
+$ git revert -m 1 <commitId> 
+
+$ git revert --no-commit -m 1 <commitId> 
+
+-m 1 标记指出 “mainline” 需要被保留下来的父结点
+
+<commitId> 是分支合并的commitId
+
+ --no-commit 不直接提交，自己执行git ci -a -m "****" 提交
+
+2、master分支撤销合并形成的新的提交commitId--4514xw3，又在master分支做了多次修改，这个时候需要再次合并之前取消的合并，执行
+
+$ git merge fixed
+Already up-to-date.
+
+这个时候提示已经是最新的分支
+
+3、在fixed分支有做了开发，并需要合并到master分支
+
+$ git merge fixed
+
+执行之后 只会引入被还原的合并 之后 的修改
+
+解决这个最好的方式是撤消还原原始的合并，因为现在你想要引入被还原出去的修改，
+然后 创建一个新的合并提交：
+
+$ git revert --no-commit <commitId> 
+
+$ git merge fixed
+
+<commitId>为master分支撤销合并形成的新的提交commitId--4514xw3
+
+
+*******************************************************************************************
+
+变基
+
+git checkout experiment				//切换到当前分支 experiment
+
+git rebase master				//提取引入的补丁和修改
+
+git checkout master				//切换到变基操作的目标基底分支 master
+
+git merge experiment				//进行一次快进合并
+
+
+****不要对在你的仓库外有副本的分支执行变基****
+详解见：https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%8F%98%E5%9F%BA
+
+git pull --rebase
+
+先 git fetch，再 git rebase teamone/master
+
+
+*******************************************************************************************
+
+
+.gitignore配置
+
+
+.所有空行或者以 # 开头的行都会被 Git 忽略。
+
+.可以使用标准的 glob 模式匹配，它会递归地应用在整个工作区中。
+
+.匹配模式可以以（/）开头防止递归。
+
+.匹配模式可以以（/）结尾指定目录。
+
+.要忽略指定模式以外的文件或目录，可以在模式前加上叹号（!）取反。
+
+
+
+
+# 忽略所有的 .a 文件
+*.a
+
+# 但跟踪所有的 lib.a，即便你在前面忽略了 .a 文件
+!lib.a
+
+# 只忽略当前目录下的 TODO 文件，而不忽略 subdir/TODO
+/TODO
+
+# 忽略任何目录下名为 build 的文件夹
+build/
+
+# 忽略 doc/notes.txt，但不忽略 doc/server/arch.txt
+doc/*.txt
+
+# 忽略 doc/ 目录及其所有子目录下的 .pdf 文件
+doc/**/*.pdf
+
+
+
+
+
+
+
+
+
+
+
 
